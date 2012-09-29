@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">FacebookLogin</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_facebook_login_main">FacebookLoginMainActivity</string>
+    <string name="login_text">Facebook Login</string>
+    <string name="facebook_picture">Facebook picture</string>
+	<string name="unauthorize_text">Remove Facebook access</string>
+	<string name="unauthorize_message">App unauthorized in facebook</string>
+</resources>

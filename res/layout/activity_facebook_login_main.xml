@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/login_text"
+        android:clickable="true"
+        android:onClick="loginInFaceBook"
+        android:textColor="#5882FA"
+        android:textStyle="bold"
+        android:id="@+id/text_login"
+        />
+    
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/text_login"
+        android:text=""
+        android:id="@+id/login_result"
+        />
+    
+    <ImageView android:id="@+id/facebook_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/login_result"
+        android:contentDescription="@string/facebook_picture"
+        android:visibility="gone"/>
+    
+   <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/unauthorize_text"
+        android:clickable="true"
+        android:onClick="clickUnAuthorize"
+        android:textColor="#5882FA"
+        android:textStyle="bold"
+        android:id="@+id/text_unauthorize"
+        android:visibility="gone"
+        /> 
+    
+    
+
+</RelativeLayout>
