@@ -92,10 +92,9 @@ public class FacebookLoginMainActivity extends Activity {
 		// params.putString("permission", "publish_stream");
 		try {
 			facebook.request(REQUEST_PERSONAL_PERMISSIONS, params, DELTE_METHOD);
-			((TextView) findViewById(R.id.text_unauthorize)).setVisibility(TextView.GONE);
-			((TextView) findViewById(R.id.text_login)).setVisibility(TextView.VISIBLE);
-			((TextView) findViewById(R.id.login_result)).setText("");
-			((ImageView) findViewById(R.id.facebook_image)).setVisibility(ImageView.GONE);
+			resetViewElements();
+			removeAccesAndExpiresToken();
+			facebook.logout(this);
 			Toast.makeText(this, getText(R.string.unauthorize_text), Toast.LENGTH_LONG).show();
 		} catch (FileNotFoundException e) {
 			Log.e(TAG,"clickUnAuthorize",e);
@@ -104,6 +103,13 @@ public class FacebookLoginMainActivity extends Activity {
 		} catch (IOException e) {
 			Log.e(TAG,"clickUnAuthorize",e);
 		}
+	}
+
+	private void resetViewElements() {
+		((TextView) findViewById(R.id.text_unauthorize)).setVisibility(TextView.GONE);
+		((TextView) findViewById(R.id.text_login)).setVisibility(TextView.VISIBLE);
+		((TextView) findViewById(R.id.login_result)).setText("");
+		((ImageView) findViewById(R.id.facebook_image)).setVisibility(ImageView.GONE);
 	}
 	
 	private void  initializeApp(){
@@ -152,6 +158,14 @@ public class FacebookLoginMainActivity extends Activity {
 		return savedValidToken;
 	}
 
+	
+	private void removeAccesAndExpiresToken(){
+		SharedPreferences.Editor editor = privatePreferences.edit();
+		editor.remove(FACEBOOK_ACCESS_TOKEN);
+		editor.remove(FACEBOOK_ACCESS_EXPIRES);
+		editor.commit();
+	}
+	
 	private void saveAccesAndExpiresToken() {
 		SharedPreferences.Editor editor = privatePreferences.edit();
 		editor.putString(FACEBOOK_ACCESS_TOKEN, facebook.getAccessToken());
