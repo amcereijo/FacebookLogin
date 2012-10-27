@@ -7,4 +7,13 @@
     <string name="facebook_picture">Facebook picture</string>
 	<string name="unauthorize_text">Remove Facebook access</string>
 	<string name="unauthorize_message">App unauthorized in facebook</string>
+	<string name="unauthorize_text_error">Error removing facebook access</string>
+	
+	<string name="progress_dialog_title">Facebook</string>
+	<string name="progress_dialog_in">Authenticating and retrieving information</string>
+	<string name="progress_dialog_out">Revoking access</string>
+	
+	<string name="login_cancel">Log in canceled</string>
+	<string name="login_error">Log in error</string>
+	<string name="login_logged">Logged as %s</string>
 </resources>
