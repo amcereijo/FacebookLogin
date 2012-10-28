@@ -180,7 +180,6 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 			}else{
 				//TODO
 			}
-			saveAccesAndExpiresToken();
 		} catch (MalformedURLException e) {
 			Log.e(TAG,"",e);
 			error = true;
@@ -275,6 +274,7 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 
 		public void onComplete(Bundle values) {
 			Log.i(TAG, "Facebook acces token extended");
+			saveAccesAndExpiresToken();
 		}
 
 		public void onFacebookError(FacebookError e) {
