@@ -24,7 +24,7 @@ public class FacebookLoginMainActivity extends Activity {
 	private static final String TAG = FacebookLoginMainActivity.class.toString();
 	
 	
-	private static final String FACEBOOK_APP_ID = "YOUR_FACEBOOK_API_KEY";
+	private static final String FACEBOOK_APP_ID = "YOUR_FACEBOOK_ID";
 	private static final String EMAIL_PERMISION = "email";
 	
 	private static final String FACEBOOK_ACCESS_TOKEN = "access_token";
@@ -62,23 +62,36 @@ public class FacebookLoginMainActivity extends Activity {
 	 * @param v
 	 */
 	public void loginInFaceBook(View v) {
+		if(facebook ==null || facebook.getAccessToken()==null){
+			facebook = new Facebook(FACEBOOK_APP_ID);
+		}
 		facebook.authorize(this, new String[] { EMAIL_PERMISION },
 				Facebook.FORCE_DIALOG_AUTH, new FacebookLoginListener(this));	
 	}
 
-	
+	/**
+	 * 
+	 * @param v
+	 */
 	public void clickUnAuthorize(View v){
-	    new FacebookLoginAsyncTask(this, facebook).execute(Operations.unAuthotize);
-	    
+	    new FacebookLoginAsyncTask(this, facebook).execute(Operations.unAuthotize);	    
 	}
 
 	
+	/**
+	 * 
+	 * @param v
+	 */
+	public void clickLogout(View v){
+	    new FacebookLoginAsyncTask(this, facebook).execute(Operations.logout);	    
+	}
+	
 	
 	private void  initializeApp(){
-		facebook = new Facebook(FACEBOOK_APP_ID);
 		privatePreferences = getPreferences(MODE_PRIVATE);
-		facebook.setAccessToken(privatePreferences.getString(FACEBOOK_ACCESS_TOKEN,null));
 		if (isSavedValidAccessFacebookToken()) {
+			facebook = new Facebook(FACEBOOK_APP_ID);
+			facebook.setAccessToken(privatePreferences.getString(FACEBOOK_ACCESS_TOKEN,null));
 			new FacebookLoginAsyncTask(this,facebook).execute(Operations.getInfoLogged);
 		}
 	}

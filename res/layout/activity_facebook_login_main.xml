@@ -33,8 +33,8 @@
         android:layout_below="@+id/login_result"
         android:contentDescription="@string/facebook_picture"
         android:visibility="gone"/>
-    
-   <Button 
+   
+    <Button 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -44,10 +44,24 @@
         android:onClick="clickUnAuthorize"
         android:textColor="#5882FA"
         android:textStyle="bold"
-        android:id="@+id/text_unauthorize"
+        android:id="@+id/button_unauthorize"
         android:visibility="gone"
         /> 
     
     
+   <Button 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/button_unauthorize"
+        android:text="@string/logout_text_button"
+        android:clickable="true"
+        android:onClick="clickLogout"
+        android:textColor="#5882FA"
+        android:textStyle="bold"
+        android:id="@+id/button_logout"
+        android:visibility="gone"
+        />  
+     
 
 </RelativeLayout>

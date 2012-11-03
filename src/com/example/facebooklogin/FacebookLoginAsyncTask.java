@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,8 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 	public enum Operations{
 		getInfoFirst,
 		getInfoLogged,
-		unAuthotize
+		unAuthotize,
+		logout
 	}
 	
 	private static final String FACEBOOK_ACCESS_TOKEN = "access_token";
@@ -84,6 +86,9 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 			case unAuthotize:
 				unAuthorize();
 				break;
+			case logout:
+				logout();
+				break;
 		}
 		return null;
 	}
@@ -95,6 +100,8 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 		if(error){
 			if(operation ==  Operations.unAuthotize){
 				Toast.makeText(activity, activity.getText(R.string.unauthorize_text_error), Toast.LENGTH_LONG).show();
+			}else if(operation == Operations.logout){
+				Toast.makeText(activity, activity.getText(R.string.logout_text_error), Toast.LENGTH_LONG).show();
 			}else{
 				((TextView) activity.findViewById(R.id.login_result)).setText(R.string.login_cancel);
 			}
@@ -104,6 +111,10 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 				removeAccesAndExpiresToken();
 			    resetViewElements();
 				Toast.makeText(activity, activity.getText(R.string.unauthorize_text), Toast.LENGTH_LONG).show();
+			}else if(operation == Operations.logout){
+				removeAccesAndExpiresToken();
+			    resetViewElements();
+				Toast.makeText(activity, activity.getText(R.string.logout_text), Toast.LENGTH_LONG).show();
 			}else{
 				showLoggedText();	
 			}
@@ -124,6 +135,23 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 			case unAuthotize:
 				publishProgress(R.string.progress_dialog_out);
 				break;
+			case logout:
+				publishProgress(R.string.progress_dialog_logout);
+				break;
+		}
+	}
+	
+	
+	private void logout(){
+		try {
+			facebook.logout(activity);
+			success = true;
+		} catch (MalformedURLException e) {
+			Log.e(TAG, "Error facebook log out", e);
+			error = true;
+		} catch (IOException e) {
+			error = true;
+			Log.e(TAG, "Error facebook log out", e);
 		}
 	}
 	
@@ -136,7 +164,8 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 	}
 	
 	private void resetViewElements() {
-		((TextView) activity.findViewById(R.id.text_unauthorize)).setVisibility(TextView.GONE);
+		((Button) activity.findViewById(R.id.button_unauthorize)).setVisibility(TextView.GONE);
+		((Button) activity.findViewById(R.id.button_logout)).setVisibility(TextView.GONE);
 		((TextView) activity.findViewById(R.id.text_login)).setVisibility(TextView.VISIBLE);
 		((TextView) activity.findViewById(R.id.login_result)).setText("");
 		((ImageView) activity.findViewById(R.id.facebook_image)).setVisibility(ImageView.GONE);
@@ -153,7 +182,6 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 		// params.putString("permission", "publish_stream");
 		try {
 			facebook.request(REQUEST_PERSONAL_PERMISSIONS, params, DELTE_METHOD);
-			
 			facebook.logout(activity);
 			success = true;
 		} catch (FileNotFoundException e) {
@@ -201,7 +229,8 @@ public class FacebookLoginAsyncTask extends AsyncTask<FacebookLoginAsyncTask.Ope
 		String name = personalInfo.optString("name");
 		String text = String.format(activity.getText(R.string.login_logged).toString(), name);
 		((TextView) activity.findViewById(R.id.login_result)).setText(text);
-		((TextView) activity.findViewById(R.id.text_unauthorize)).setVisibility(TextView.VISIBLE);
+		((Button) activity.findViewById(R.id.button_unauthorize)).setVisibility(TextView.VISIBLE);
+		((Button) activity.findViewById(R.id.button_logout)).setVisibility(TextView.VISIBLE);
 		
 		ImageView facebookImage = (ImageView) activity.findViewById(R.id.facebook_image);
 		facebookImage.setImageDrawable(faccebookImage);
